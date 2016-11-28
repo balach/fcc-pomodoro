@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Pomodoro Clock</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Lobster|Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="css/pomodoro.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="js/pomodoro.js"></script>
+  </head>
+  <body>
+
+    <div class="calculator-container div-center">
+
+      <div class="header section">Pomodoro Clock</div>
+
+      <div class="settings section">
+          <div class="break">
+            <span class="title">BREAK LENGTH</span>
+            <br/>
+            <button value="minus" class="button break-time">-</button>
+            <span class="break-time">5</span>
+            <button value="plus" class="button break-time">+</button>
+          </div>
+          <div class="session">
+            <span class="title">SESSION LENGTH</span>
+            <br/>
+            <button value="minus" class="button session-time">-</button>
+            <span class="break-time">25</span>
+            <button value="plus" class="button session-time">+</button>
+          </div>
+      </div>
+
+      <div class="main-display">
+        <div class="display section">
+            <span class="title">Session</span>
+            <br/>
+            <br/>
+            <span class="title remaining-time">25</span>
+        </div>
+        <div class="reset">
+            <button value="reset" class="button reset">-</button>
+            <span>RESET</span>
+        </div>
+      </div>
+      <div class="footer section">
+        <span>Created by <a href="http://balach.de" target="_blank">Balach</a></span>
+      </div>
+    </div>
+
+  </body>
+</html>

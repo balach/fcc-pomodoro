@@ -1,0 +1,78 @@
+html {
+  height: 100%;
+}
+
+body {
+  background-color: rgba(245, 245, 245, 0.75);
+  font-family: : 'Open Sans', sans-serif;
+  color: rgb(52, 52, 52);
+  width: 60%;
+  text-align: center;
+  vertical-align: middle;
+  align-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header {
+  font-family: 'Lobster', cursive;
+  font-size: large;
+  text-shadow: rgba(115, 111, 111, 0.55) 0px 0px 4px;
+}
+
+.settings {
+  height: 10rem;
+}
+
+.break {
+  float: left;
+  margin: 2rem;
+}
+
+.session {
+  float: right;
+  margin: 2rem;
+}
+
+.reset {
+  float:right;
+  margin-top: -2rem;
+  margin-right:20%;
+}
+
+button {
+  color: rgba(10,10,10, 0.7);
+  font-size: large;
+  width: 2rem;
+  height: 2rem;
+  background-color: rgba(0,0,0,0);
+  border: none;
+}
+button:active {
+  color: rgba(10,10,10,1);
+  font-weight:bolder;
+}
+button:focus {
+  outline: none;
+}
+button.reset {
+  color: red;
+  font-weight: bolder;
+  border: 3px solid red;
+  border-radius: 50%;
+}
+
+.display {
+  transition: all 1s;
+  color: #FF5722;
+  width: 18rem;
+  height: 18rem;
+  margin: auto;
+  border-radius: 50%;
+  border: 5px solid rgba(87, 224, 118, 0.98);
+  background-color: rgba(220, 71, 71, 0.15);
+}
+
+.footer {
+  margin-top: 2rem;
+}
