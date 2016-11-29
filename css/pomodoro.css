@@ -4,7 +4,7 @@ html {
 
 body {
   background-color: rgba(245, 245, 245, 0.75);
-  font-family: : 'Open Sans', sans-serif;
+  font-family: 'Raleway', sans-serif;
   color: rgb(52, 52, 52);
   width: 60%;
   text-align: center;
@@ -57,20 +57,19 @@ button:focus {
 }
 button.reset {
   color: red;
-  font-weight: bolder;
   border: 3px solid red;
   border-radius: 50%;
 }
 
 .display {
-  transition: all 1s;
-  color: #FF5722;
+  transition: all 0.3s;
+  color: #333333;
   width: 18rem;
   height: 18rem;
   margin: auto;
   border-radius: 50%;
   border: 5px solid rgba(87, 224, 118, 0.98);
-  background-color: rgba(220, 71, 71, 0.15);
+  background: linear-gradient(rgba(205, 220, 57, 0.9) 100%, rgba(255, 87, 34, 0.9) 100%, rgba(255, 87, 34, 0.9));
 }
 
 .footer {
