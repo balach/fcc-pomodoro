@@ -1,16 +1,17 @@
 // Set up global variables
 var clock = {
-  "break": 1,
-  "session": 2,
+  "break": 5,
+  "session": 25,
   "runningSession": false,
   "elapsedTime": 0,
-  "remainingTime": 3 * 60 * 1000,
+  "remainingTime": 25 * 60 * 1000,
   "startTime": new Date().getTime(),
-  "endTime": new Date().getTime() + (3 * 60 * 1000),
+  "endTime": new Date().getTime() + (25 * 60 * 1000),
   "fillTimerId": "",
   "fillpercent": 100,
   "clockTimerId": "",
   "clockIntervalId": "",
+  "ff": 0,
   "startSession": function() {
     console.log("Starting session!");
     clock.startTime = new Date().getTime();
@@ -19,11 +20,16 @@ var clock = {
     $(".display").css("background", "linear-gradient(rgba(205, 220, 57, 0.9) 100%, rgba(255, 87, 34, 0.9) 100%, rgba(255, 87, 34, 0.9))");
     clock.clockIntervalId = window.setInterval(function() {
 
-      clock.remainingTime = clock.endTime - new Date().getTime();
+      if (clock.ff === 9) {
+        clock.remainingTime -= 1000;
+      }
+      else {
+        clock.remainingTime = clock.endTime - new Date().getTime();
+      }
       clock.updateView();
 
 
-      if (clock.remainingTime <= 1000) {
+      if (clock.remainingTime < 1000) {
         console.log("Clearing session interval");
         window.clearInterval(clock.clockIntervalId);
       }
@@ -34,7 +40,7 @@ var clock = {
   },
   "updateView": function() {
     console.log("Updating Display");
-    $("span.remaining-time").html(clock.remainingTime / (60 * 1000));
+    $("span.remaining-time").html( parseInt(clock.remainingTime / 1000 / 60) + ":" + parseInt(clock.remainingTime / 1000 % 60));
     $("span.break-time").html(clock.break);
     $("span.session-time").html(clock.session);
     if (clock.runningSession && clock.remainingTime < 100000) {
@@ -65,6 +71,12 @@ var clock = {
     clock.updateView();
   }
 };
+
+function fastForward() {
+  clock.remainingTime = 2 * 60 * 1000;
+  clock.ff = 9;
+  console.log("forwarding fast");
+}
 
 // Start the engines
 $(document).ready(function() {
