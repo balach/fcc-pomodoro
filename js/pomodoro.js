@@ -4,7 +4,7 @@ var clock = {
   "session": 25,
   "runningSession": false,
   "elapsedTime": 0,
-  "remainingTime": 25 * 60 * 1000,
+  "remainingTime": this.session * 60 * 1000,
   "startTime": new Date().getTime(),
   "endTime": new Date().getTime() + (25 * 60 * 1000),
   "fillTimerId": "",
@@ -12,6 +12,16 @@ var clock = {
   "clockTimerId": "",
   "clockIntervalId": "",
   "ff": 0,
+  "increaseTime": function(breakOrSession) {
+    this[breakOrSession] = this[breakOrSession] + 1;
+    $("span.break-time").html(clock.break);
+    $("span.session-time").html(clock.session);
+  },
+  "decreaseTime": function(breakOrSession) {
+    this[breakOrSession] = this[breakOrSession] - 1;
+    $("span.break-time").html(clock.break);
+    $("span.session-time").html(clock.session);
+  },
   "startSession": function() {
     console.log("Starting session!");
     clock.startTime = new Date().getTime();
@@ -41,8 +51,7 @@ var clock = {
   "updateView": function() {
     console.log("Updating Display");
     $("span.remaining-time").html( parseInt(clock.remainingTime / 1000 / 60) + ":" + parseInt(clock.remainingTime / 1000 % 60));
-    $("span.break-time").html(clock.break);
-    $("span.session-time").html(clock.session);
+    
     if (clock.runningSession && clock.remainingTime < 100000) {
       //TODO: start filling the pomodoro!
       clock.fillPomodoro();
@@ -81,25 +90,31 @@ function fastForward() {
 // Start the engines
 $(document).ready(function() {
 
-  $("button").on("click", function() {
+  $("button", ".settings").on("click", function() {
     var plusOrMinus = $(this).val();
-    var isSession = $(this).hasClass("session-time");
-    var isBreak = $(this).hasClass("break-time");
-    if (isSession) {
-      clock.session = (plusOrMinus === "-") ? clock.session-- : clock.session++;
-    } else if (isBreak) {
-      clock.break = (plusOrMinus === "-") ? clock.break-- : clock.break++;
+    var breakOrSession = $(this).hasClass("session-time") ? "session" : "break";
+    if (plusOrMinus === "minus") {
+      console.log("Decreasing "+ breakOrSession + " because:", plusOrMinus, breakOrSession);
+      clock.decreaseTime(breakOrSession);
     }
-    clock.updateView();
+    else {
+      console.log("INCREASING "+ breakOrSession + " because:", plusOrMinus, breakOrSession);
+      clock.increaseTime(breakOrSession);
+    }
   });
+
   $("button.reset").on("click", function() {
     clock.reset();
   });
+
   $(".display").on("click", function() {
+    $("span.break-time").html(clock.break);
+    $("span.session-time").html(clock.session);
     if (clock.runningSession) {
       clock.pauseSession();
       clock.runningSession = false;
     } else {
+      clock.remainingTime = 
       clock.startSession();
       clock.runningSession = true;
     }

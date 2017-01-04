@@ -16,23 +16,37 @@ body {
 
 .header {
   font-family: 'Lobster', cursive;
-  font-size: large;
+  font-size: 400%;
   text-shadow: rgba(115, 111, 111, 0.55) 0px 0px 4px;
 }
 
 .settings {
   height: 10rem;
+  margin-top: 2rem;
 }
 
 .break {
   float: left;
-  margin: 2rem;
+  margin-left: 10rem;
 }
 
 .session {
   float: right;
-  margin: 2rem;
+  margin-right: 10rem;
 }
+
+.main-display {
+  margin-top: -4rem;
+}
+
+.display-text {
+  font-size: 200%;
+}
+
+.display-remaining-time {
+  font-size: 400%;
+}
+
 
 .reset {
   float:right;
@@ -59,8 +73,12 @@ button.reset {
   color: red;
   border: 3px solid red;
   border-radius: 50%;
+  margin-right: 4rem;
 }
 
+.reset span {
+  margin-right: 0.5rem;
+}
 .display {
   transition: all 0.3s;
   color: #333333;
