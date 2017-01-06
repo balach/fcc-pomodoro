@@ -12,6 +12,7 @@ var clock = {
   "clockTimerId": "",
   "clockIntervalId": "",
   "ff": 0,
+  "fillStep": 0,
   "increaseTime": function(breakOrSession) {
     this[breakOrSession] = this[breakOrSession] + 1;
     $("span.break-time").html(clock.break);
@@ -35,9 +36,9 @@ var clock = {
       }
       else {
         clock.remainingTime = clock.endTime - new Date().getTime();
+        console.log("Remaining Time calculated: " + clock.remainingTime);
       }
       clock.updateView();
-
 
       if (clock.remainingTime < 1000) {
         console.log("Clearing session interval");
@@ -50,23 +51,29 @@ var clock = {
   },
   "updateView": function() {
     console.log("Updating Display");
-    $("span.remaining-time").html( parseInt(clock.remainingTime / 1000 / 60) + ":" + parseInt(clock.remainingTime / 1000 % 60));
+    $("span.display-remaining-time").html( parseInt(clock.remainingTime / 1000 / 60) + ":" + parseInt(clock.remainingTime / 1000 % 60));
     
-    if (clock.runningSession && clock.remainingTime < 100000) {
+    if (clock.remainingTime < 100000) {
       //TODO: start filling the pomodoro!
-      clock.fillPomodoro();
+      clock.fillPomodoro(clock.runningSession);
     }
   },
-  "fillPomodoro": function() {
+  "fillPomodoro": function(unfill) {
     clock.fillTimerId = window.setTimeout(function() {
-      var newFillPercent = clock.fillpercent--;
-      var backgroundFill = "linear-gradient(rgba(205, 220, 57, 0.9) " + newFillPercent + "%, rgba(255, 87, 34, 0.9) " + newFillPercent + "%, rgba(255, 87, 34, 0.9))";
+      clock.fillStep = (clock.fillStep === 0) ? clock.remainingTime / 100000 : clock.fillStep;
+      
+      clock.fillpercent = (!unfill) ? clock.fillpercent + clock.fillStep : clock.fillpercent - clock.fillStep;
+      console.log("Filling the pomodoro at steps of: " + clock.fillStep + " -And new fillpercent: " + clock.fillpercent);
+      var backgroundFill = "linear-gradient(rgba(205, 220, 57, 0.9) " + clock.fillpercent + "%, rgba(255, 87, 34, 0.9) " + clock.fillpercent + "%, rgba(255, 87, 34, 0.9))";
 
-      if (newFillPercent > 1 && clock.runningSession) {
+
+      if (clock.fillpercent > 0 && clock.runningSession) {
         $(".display").css("background", backgroundFill);
       }
-      if (newFillPercent <= 1) {
+      if (clock.fillpercent <= 0 || clock.fillpercent >= 100) {
         console.log("Clearing filling timeout");
+        clock.fillStep = 0;
+        clock.fillpercent = (clock.fillpercent <= 0) ? 100 : 0;
         window.clearTimeout(clock.fillTimerId);
       }
     }, 1000);
@@ -74,6 +81,8 @@ var clock = {
   "reset": function() {
     console.log("Reseting Everything");
     clock.remainingTime = clock.session;
+    clock.fillStep = 0;
+    clock.fillpercent = 100;
     window.clearTimeout(clock.fillTimerId);
     window.clearTimeout(clock.clockTimerId);
     window.clearInterval(clock.clockIntervalId);
@@ -114,7 +123,7 @@ $(document).ready(function() {
       clock.pauseSession();
       clock.runningSession = false;
     } else {
-      clock.remainingTime = 
+      clock.remainingTime = clock.session;
       clock.startSession();
       clock.runningSession = true;
     }
