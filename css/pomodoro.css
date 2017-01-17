@@ -90,6 +90,10 @@ button.reset {
   background: linear-gradient(rgba(205, 220, 57, 0.9) 100%, rgba(255, 87, 34, 0.9) 100%, rgba(255, 87, 34, 0.9));
 }
 
+.period-ending {
+  border: 5px solid red;
+}
+
 .footer {
   margin-top: 2rem;
 }

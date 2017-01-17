@@ -7,12 +7,9 @@ var clock = {
   "remainingTime": this.session * 60 * 1000,
   "startTime": new Date().getTime(),
   "endTime": new Date().getTime() + (25 * 60 * 1000),
-  "fillTimerId": "",
-  "fillpercent": 100,
   "clockTimerId": "",
   "clockIntervalId": "",
   "ff": 0,
-  "fillStep": 0,
   "increaseTime": function(breakOrSession) {
     this[breakOrSession] = this[breakOrSession] + 1;
     $("span.break-time").html(clock.break);
@@ -53,37 +50,13 @@ var clock = {
     console.log("Updating Display");
     $("span.display-remaining-time").html( parseInt(clock.remainingTime / 1000 / 60) + ":" + parseInt(clock.remainingTime / 1000 % 60));
     
-    if (clock.remainingTime < 100000) {
-      //TODO: start filling the pomodoro!
-      clock.fillPomodoro(clock.runningSession);
+    if (clock.remainingTime < 50000) {
+      $(".display").toggleClass("period-ending");
     }
-  },
-  "fillPomodoro": function(unfill) {
-    clock.fillTimerId = window.setTimeout(function() {
-      clock.fillStep = (clock.fillStep === 0) ? clock.remainingTime / 100000 : clock.fillStep;
-      
-      clock.fillpercent = (!unfill) ? clock.fillpercent + clock.fillStep : clock.fillpercent - clock.fillStep;
-      console.log("Filling the pomodoro at steps of: " + clock.fillStep + " -And new fillpercent: " + clock.fillpercent);
-      var backgroundFill = "linear-gradient(rgba(205, 220, 57, 0.9) " + clock.fillpercent + "%, rgba(255, 87, 34, 0.9) " + clock.fillpercent + "%, rgba(255, 87, 34, 0.9))";
-
-
-      if (clock.fillpercent > 0 && clock.runningSession) {
-        $(".display").css("background", backgroundFill);
-      }
-      if (clock.fillpercent <= 0 || clock.fillpercent >= 100) {
-        console.log("Clearing filling timeout");
-        clock.fillStep = 0;
-        clock.fillpercent = (clock.fillpercent <= 0) ? 100 : 0;
-        window.clearTimeout(clock.fillTimerId);
-      }
-    }, 1000);
   },
   "reset": function() {
     console.log("Reseting Everything");
     clock.remainingTime = clock.session;
-    clock.fillStep = 0;
-    clock.fillpercent = 100;
-    window.clearTimeout(clock.fillTimerId);
     window.clearTimeout(clock.clockTimerId);
     window.clearInterval(clock.clockIntervalId);
     clock.updateView();
