@@ -2,14 +2,15 @@
 var clock = {
   "break": 5,
   "session": 25,
-  "runningSession": false,
+  "sessionRunning": false,
+  "breakRunning": false,
+  "paused": false,
   "elapsedTime": 0,
-  "remainingTime": this.session * 60 * 1000,
+  "remainingTime": 25 * 60 * 1000,
   "startTime": new Date().getTime(),
   "endTime": new Date().getTime() + (25 * 60 * 1000),
   "clockTimerId": "",
   "clockIntervalId": "",
-  "ff": 0,
   "increaseTime": function(breakOrSession) {
     this[breakOrSession] = this[breakOrSession] + 1;
     $("span.break-time").html(clock.break);
@@ -20,34 +21,34 @@ var clock = {
     $("span.break-time").html(clock.break);
     $("span.session-time").html(clock.session);
   },
-  "startSession": function() {
-    console.log("Starting session!");
+  "startSession": function(breakOrSession) {
+    console.log("Starting period of " + breakOrSession);
     clock.startTime = new Date().getTime();
-    clock.endTime = clock.startTime + (clock.session * 60 * 1000);
-    clock.runningSession = true;
-    $(".display").css("background", "linear-gradient(rgba(205, 220, 57, 0.9) 100%, rgba(255, 87, 34, 0.9) 100%, rgba(255, 87, 34, 0.9))");
-    clock.clockIntervalId = window.setInterval(function() {
+    clock.breakRunning = false;
+    clock.sessionRunning = false;
+    clock[breakOrSession + "Running"] = true;
+    clock.endTime = clock.startTime + (clock[breakOrSession] * 60 * 1000);
 
-      if (clock.ff === 9) {
-        clock.remainingTime -= 1000;
-      }
-      else {
-        clock.remainingTime = clock.endTime - new Date().getTime();
-        console.log("Remaining Time calculated: " + clock.remainingTime);
-      }
-      clock.updateView();
+    clock.clockIntervalId = window.setInterval(function() {
+      
+      clock.remainingTime = clock.endTime - new Date().getTime();
+      console.log("Remaining Time calculated: " + clock.remainingTime);
+      clock.updateView(breakOrSession);
 
       if (clock.remainingTime < 1000) {
         console.log("Clearing session interval");
         window.clearInterval(clock.clockIntervalId);
+        clock.startSession((breakOrSession === "session") ? "break" : "session");
       }
-    }, 1000);
+    }, 1000, breakOrSession);
   },
   "pauseSession": function() {
     console.log("Pausing session!");
+    clock.paused = true;
   },
-  "updateView": function() {
-    console.log("Updating Display");
+  "updateView": function(breakOrSession) {
+    console.log("Updating Display for " + breakOrSession);
+    $("span.display-text").html(breakOrSession);
     $("span.display-remaining-time").html( parseInt(clock.remainingTime / 1000 / 60) + ":" + parseInt(clock.remainingTime / 1000 % 60));
     
     if (clock.remainingTime < 50000) {
@@ -59,15 +60,9 @@ var clock = {
     clock.remainingTime = clock.session;
     window.clearTimeout(clock.clockTimerId);
     window.clearInterval(clock.clockIntervalId);
-    clock.updateView();
+    clock.updateView("session");
   }
 };
-
-function fastForward() {
-  clock.remainingTime = 2 * 60 * 1000;
-  clock.ff = 9;
-  console.log("forwarding fast");
-}
 
 // Start the engines
 $(document).ready(function() {
@@ -92,13 +87,13 @@ $(document).ready(function() {
   $(".display").on("click", function() {
     $("span.break-time").html(clock.break);
     $("span.session-time").html(clock.session);
-    if (clock.runningSession) {
+    if (clock.paused) {
+      clock.startSession(clock.sessionRunning ? "session" : "break");
+    } else if (!clock.paused) {
+        clock.startSession("session");
+      }
+    else {
       clock.pauseSession();
-      clock.runningSession = false;
-    } else {
-      clock.remainingTime = clock.session;
-      clock.startSession();
-      clock.runningSession = true;
     }
   });
 });

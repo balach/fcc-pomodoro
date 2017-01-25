@@ -47,14 +47,8 @@ body {
   font-size: 400%;
 }
 
-
-.reset {
-  float:right;
-  margin-top: -2rem;
-  margin-right:20%;
-}
-
 button {
+  cursor: pointer;
   color: rgba(10,10,10, 0.7);
   font-size: large;
   width: 2rem;
@@ -69,17 +63,17 @@ button:active {
 button:focus {
   outline: none;
 }
-button.reset {
+button.reset, button.pause {
   color: red;
-  border: 3px solid red;
+  border: 2px solid orange;
   border-radius: 50%;
-  margin-right: 4rem;
 }
 
 .reset span {
   margin-right: 0.5rem;
 }
 .display {
+  cursor: pointer;
   transition: all 0.3s;
   color: #333333;
   width: 18rem;
@@ -88,6 +82,7 @@ button.reset {
   border-radius: 50%;
   border: 5px solid rgba(87, 224, 118, 0.98);
   background: linear-gradient(rgba(205, 220, 57, 0.9) 100%, rgba(255, 87, 34, 0.9) 100%, rgba(255, 87, 34, 0.9));
+  text-transform: capitalize;
 }
 
 .period-ending {
