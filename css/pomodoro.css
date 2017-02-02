@@ -56,6 +56,10 @@ button:active {
 button:focus {
   outline: none;
 }
+button:disabled {
+  opacity: 0.55; 
+  cursor: not-allowed;
+}
 button.reset, button.pause {
   font-weight: bolder;
   color: red;
