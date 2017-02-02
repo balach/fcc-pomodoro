@@ -1,17 +1,12 @@
-html {
-  height: 100%;
-}
-
 body {
   background-color: rgba(245, 245, 245, 0.75);
   font-family: 'Raleway', sans-serif;
   color: rgb(52, 52, 52);
-  width: 60%;
   text-align: center;
-  vertical-align: middle;
-  align-content: center;
-  margin-left: auto;
-  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .header {
@@ -21,22 +16,20 @@ body {
 }
 
 .settings {
-  height: 10rem;
+  height: 3rem;
   margin-top: 2rem;
-}
-
-.break {
-  float: left;
-  margin-left: 10rem;
-}
-
-.session {
-  float: right;
-  margin-right: 10rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-end;
 }
 
 .main-display {
-  margin-top: -4rem;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 .display-text {
@@ -64,21 +57,24 @@ button:focus {
   outline: none;
 }
 button.reset, button.pause {
+  font-weight: bolder;
   color: red;
-  border: 2px solid orange;
+  border: 3px inset orange;
   border-radius: 50%;
 }
 
-.reset span {
-  margin-right: 0.5rem;
+button.break-time, button.session-time {
+  margin: 1px;
+  border-bottom: 2px solid grey;
+  border-radius: 40%;
 }
+
 .display {
   cursor: pointer;
   transition: all 0.3s;
   color: #333333;
-  width: 18rem;
-  height: 18rem;
-  margin: auto;
+  width: 16rem;
+  height: 16rem;
   border-radius: 50%;
   border: 5px solid rgba(87, 224, 118, 0.98);
   background: linear-gradient(rgba(205, 220, 57, 0.9) 100%, rgba(255, 87, 34, 0.9) 100%, rgba(255, 87, 34, 0.9));
@@ -90,5 +86,5 @@ button.reset, button.pause {
 }
 
 .footer {
-  margin-top: 2rem;
+  margin-top: 3rem;
 }
